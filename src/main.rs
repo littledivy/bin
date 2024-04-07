@@ -2,11 +2,12 @@
 extern crate rocket;
 use std::{fs, net::IpAddr, path::PathBuf};
 
+use dotenvy::dotenv;
 use clap::Parser;
 use once_cell::sync::Lazy;
 use rocket::{
     figment::{providers::Env, Figment},
-    shield::{NoSniff, Shield},
+    shield::{NoSniff, Shield}, fairing::AdHoc,
 };
 use rocket_dyn_templates::{tera::Tera, Template};
 use rust_embed::RustEmbed;
@@ -53,7 +54,7 @@ fn setup_tera_engine(tera: &mut Tera) {
 #[clap(author, version, about, long_about=None)]
 pub struct Args {
     /// Path to the uploads folder
-    #[clap(short, long, default_value = "./upload")]
+    #[clap(short, long, default_value = "/var/storage")]
     upload: std::path::PathBuf,
 
     /// Port on which the webserver runs
@@ -84,6 +85,7 @@ pub fn get_upload_dir() -> PathBuf {
 #[launch]
 fn rocket() -> _ {
     let args = get_parsed_args();
+    let _ = dotenv();
 
     // Custom Fairings and Providers
     let shield = Shield::default().disable::<NoSniff>();
@@ -112,6 +114,14 @@ fn rocket() -> _ {
             ],
         )
         .attach(shield)
+        .attach(AdHoc::on_response("Add WWW-Authenticate header", |req, res| Box::pin(async move{
+            if res.status().code == 401 {
+                res.set_raw_header(
+                    "WWW-Authenticate",
+                    format!("Basic realm=\"{}\"", SERVER_VERSION),
+                );
+            }
+        })))
         .attach(Template::custom(|engines| {
             setup_tera_engine(&mut engines.tera)
         }))

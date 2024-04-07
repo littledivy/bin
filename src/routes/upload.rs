@@ -1,12 +1,22 @@
 use rocket::data::{Data, ToByteUnit};
+use rocket_basicauth::BasicAuth;
 
 use std::path::Path;
 
 use crate::get_parsed_args;
 use crate::models::paste_id::PasteId;
 
+use super::authenicate;
+
 #[post("/", data = "<paste>")]
-pub async fn upload(paste: Data<'_>) -> Result<String, std::io::Error> {
+pub async fn upload(auth: BasicAuth, paste: Data<'_>) -> Result<String, std::io::Error> {
+    if !authenicate(auth) {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::PermissionDenied,
+            "Unauthorized",
+        ));
+    }
+
     let args = get_parsed_args();
     let id = PasteId::new(6);
 

@@ -15,7 +15,7 @@ pub async fn index() -> ResponseWrapper<Template> {
         false => "",
     };
 
-    map.insert("title", "bin");
+    map.insert("title", "divy's bin");
     map.insert("client_desc", client_desc);
 
     ResponseWrapper::meta_response(Template::render("index.html", &map))
