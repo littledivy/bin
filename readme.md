@@ -7,4 +7,4 @@ Adds these extra features:
 - Custom file names (and title)
 - Local pins
 - Edit existing pastes
-
+- Better PWA
