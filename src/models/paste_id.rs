@@ -8,18 +8,30 @@ use rand::{self, distributions::Alphanumeric, Rng};
 pub struct PasteId<'a>(Cow<'a, str>);
 
 fn valid_id(id: &str) -> bool {
+    let mut parts = id.split('-');
+    // Last part must be alphanumeric
+    let id = parts.last().unwrap();
     id.chars().all(char::is_alphanumeric)
 }
 
 impl<'a> PasteId<'a> {
-    pub fn new(size: usize) -> PasteId<'static> {
+    pub fn new(name: Option<&str>, size: usize) -> PasteId<'static> {
+        if let Some(name) = name {
+            if !name.chars().all(|c| c.is_alphanumeric() || c == '-') {
+                panic!("Invalid name");
+            }
+        }
+
         let id: String = rand::thread_rng()
             .sample_iter(&Alphanumeric)
             .take(size)
             .map(char::from)
             .collect();
 
-        PasteId(Cow::Owned(id))
+        PasteId(Cow::Owned(match name {
+            Some(name) => format!("{}-{}", name, id),
+            None => id,
+        }))
     }
 }
 

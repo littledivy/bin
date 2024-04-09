@@ -28,6 +28,18 @@ function forkClicked() {
     window.location = homePage;
 }
 
+function pinClicked() {
+    let text = pasteContentDiv.innerText;
+    let pastes = localStorage["pinned"] ? JSON.parse(localStorage["pinned"]) : [];
+
+    const name = document.location.href.split('/').pop();
+    pastes.push(name);
+
+    localStorage["pinned"] = JSON.stringify(pastes);
+
+    window.location = homePage;
+}
+
 function newPasteClicked() {
     window.location = homePage;
 }

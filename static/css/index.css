@@ -42,6 +42,17 @@ form.highlight {
     grid-row: 1/2;
 }
 
+.inputName {
+    color: #F29718;
+    background-color: #0f1419;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: pointer;
+}
+
 .fileUpload {
     margin-bottom: 1.5em;
 }
@@ -54,6 +65,14 @@ form.highlight {
     text-align: center;
 }
 
+pinned {
+    color: #F29718;
+    border: 1px solid #F29718;
+    border-radius: .3em;
+    padding: 1em;
+    display: block;
+}
+
 @media (min-width: 992px) {
     .fileUpload {
         display: none;
@@ -63,6 +82,7 @@ form.highlight {
 textarea {
     height: 90%;
     width: 100%;
+    margin-top: 1em;
 
     background: none;
     border: none;

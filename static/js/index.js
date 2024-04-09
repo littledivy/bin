@@ -7,20 +7,48 @@ const upload_card = document.querySelector('#upload_card');
 const textarea = document.querySelector('textarea');
 const select = document.querySelector('select');
 const submitButton = document.querySelector('button[type="submit"]');
+const input = document.querySelector('.inputName');
+const pinnedSection = document.querySelector('.pinnedSection');
 
 window.onload = () => {
     if (localStorage["forkText"] !== null) {
         const textArea = document.getElementById('textarea_content');
         textArea.textContent = localStorage["forkText"];
-        localStorage.clear();
+
+        if (localStorage["editUID"] !== null) {
+          // TODO
+        }
+
+        localStorage.removeItem("forkText");
         onInput();
     }
+
+  if (localStorage["pinned"]) {
+    const pastes = JSON.parse(localStorage["pinned"]);
+    pastes.forEach(paste => {
+      const pasteDiv = document.createElement('div');
+      pasteDiv.classList.add('pinned');
+      const { name, link } = parsePasteId(paste);
+      pasteDiv.innerHTML = `* <a href="/p/${link}">${name || link}</a>`;
+      pinnedSection.appendChild(pasteDiv);
+    });
+  }
+}
+
+function parsePasteId(name) {
+  const parts = name.split('-');
+  return {
+    name: parts.slice(0, -1).join('-'),
+    link: name,
+  }
 }
 
 const onInput = () => {
     submitButton.classList.toggle('hidden', !textarea.value);
     select.classList.toggle('hidden', !textarea.value);
+    input.classList.toggle('hidden', !textarea.value);
     fileUpload.classList.toggle('hidden', textarea.value);
+    pinnedSection.classList.toggle('hidden', textarea.value);
 }
 textarea.addEventListener('input', onInput);
 onInput();

@@ -8,8 +8,9 @@
                 <input type="file" name="file-upload" id="file-upload" hidden />
                 <label for="file-upload">Upload a file</label>
             </div>
-            <textarea name="content" id="textarea_content" style="resize: none" placeholder="
-bin(3)
+
+        <div class="pinnedSection"></div>
+        <textarea name="content" id="textarea_content" style="resize: none" placeholder="bin(3)
 
 NAME
        bin - A highly opinionated and minimalistic Pastebin
@@ -188,6 +189,7 @@ ROUTES
             </select>
         </div>
         <div class="submitButtonBox">
+            <input class="inputName" name="name" placeholder="upload-name"></input>
             <button type="submit" title="Paste">Paste</button>
         </div>
     </div>
