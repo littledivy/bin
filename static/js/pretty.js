@@ -22,6 +22,8 @@ function wrapClicked() {
 function forkClicked() {
     let text = pasteContentDiv.innerText;
     localStorage["forkText"] = text;
+    let name = document.location.href.split('/').pop();
+    localStorage["forkName"] = name;
 
     console.log(text);
 

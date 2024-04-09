@@ -18,7 +18,7 @@ pub async fn upload(auth: BasicAuth, paste: Data<'_>) -> Result<String, std::io:
     }
 
     let args = get_parsed_args();
-    let id = PasteId::new(None, 6);
+    let id = PasteId::new(false, None, 6);
 
     let filepath = Path::new(&args.upload).join(format!("{id}", id = id));
 

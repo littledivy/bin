@@ -9,18 +9,26 @@ const select = document.querySelector('select');
 const submitButton = document.querySelector('button[type="submit"]');
 const input = document.querySelector('.inputName');
 const pinnedSection = document.querySelector('.pinnedSection');
+const editInput = document.querySelector('input[type="checkbox"]');
 
 window.onload = () => {
     if (localStorage["forkText"] !== null) {
         const textArea = document.getElementById('textarea_content');
         textArea.textContent = localStorage["forkText"];
+        const parts = localStorage["forkName"].split('.');
+        const name = parts.slice(0, -1);
+        const ext = parts[parts.length - 1];
 
-        if (localStorage["editUID"] !== null) {
-          // TODO
-        }
+        input.value = name.join('.');
+        select.value = ext;
+
+        editInput.checked = true;
 
         localStorage.removeItem("forkText");
+        localStorage.removeItem("forkName");
         onInput();
+    } else {
+      editInput.checked = false;
     }
 
   if (localStorage["pinned"]) {

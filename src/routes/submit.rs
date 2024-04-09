@@ -12,6 +12,7 @@ pub struct PasteIdForm {
     content: String,
     ext: String,
     name: Option<String>,
+    edit: bool,
 }
 
 #[post("/submit", data = "<paste>")]
@@ -20,7 +21,7 @@ pub async fn submit(auth: BasicAuth, paste: Form<PasteIdForm>) -> Redirect {
         return Redirect::to("/401");
     }
 
-    let id = PasteId::new(paste.name.as_deref(), 6);
+    let id = PasteId::new(paste.edit, paste.name.as_deref(), 6);
 
     let filepath = Path::new(&get_upload_dir()).join(format!("{id}", id = id));
     let content = &paste.content;
