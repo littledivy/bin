@@ -62,7 +62,7 @@ pub struct Args {
     port: u16,
 
     /// Address on which the webserver runs
-    #[clap(short, long, default_value = "127.0.0.1")]
+    #[clap(short, long, default_value = "0.0.0.0")]
     address: IpAddr,
 
     /// Binary uploads file size limit (in MiB)

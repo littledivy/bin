@@ -2,6 +2,8 @@
   "name": "divy's bin",
   "short_name": "divy's bin",
   "description": "divy's paste bin",
-  "start_url": ".",
-  "display": "standalone"
+  "start_url": "../",
+  "display": "standalone",
+  "background_color": "#0f1419",
+  "theme_color": "#0f1419"
 }
