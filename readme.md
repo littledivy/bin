@@ -8,3 +8,4 @@ Adds these extra features:
 - Local pins
 - Edit existing pastes
 - Better PWA
+- iOS client https://github.com/littledivy/Bin.app
